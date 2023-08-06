@@ -1,5 +1,18 @@
 'use client'
 import React, { useState, useEffect } from "react";
+// import getWeather from '../pages/api/index';
+
+import axios from 'axios';
+
+const getWeather = async (location) => {
+  const response = await axios.get(`http://localhost:3001/weather?location=${location}`);
+  console.log(response);
+  if (response.status === 200) {
+    return response.data;
+  } else {
+    throw new Error(response.statusText);
+  }
+};
 
 const CurrentWeather = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -19,10 +32,7 @@ const CurrentWeather = () => {
   }, [location]);
 
   const fetchWeatherData = async (location) => {
-    const apiKey = "8e8f6b3377bb1dbcc33a7180033ab481";
-    const response = await fetch(
-      `https://api.openweathermap.org/data/2.5/weather?q=${location}&units=metric&appid=${apiKey}`
-    );
+    const response = await getWeather(location);
 
     if(response.status == 200){
       const data = await response.json();
