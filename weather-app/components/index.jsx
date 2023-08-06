@@ -1,18 +1,6 @@
 'use client'
 import React, { useState, useEffect } from "react";
-// import getWeather from '../pages/api/index';
-
 import axios from 'axios';
-
-const getWeather = async (location) => {
-  const response = await axios.get(`http://localhost:3001/weather?location=${location}`);
-  console.log(response);
-  if (response.status === 200) {
-    return response.data;
-  } else {
-    throw new Error(response.statusText);
-  }
-};
 
 const CurrentWeather = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -32,19 +20,16 @@ const CurrentWeather = () => {
   }, [location]);
 
   const fetchWeatherData = async (location) => {
-    const response = await getWeather(location);
-
-    if(response.status == 200){
-      const data = await response.json();
-      setWeatherData(data);
-
-    } else if(response.status == 404){
-      setErrorMessage("Location not found! Enter an appropriate city name.");
-    } else if(location.length == 0){
-      setErrorMessage("Please enter any city first to know its weather.");
-
-    } else {
-      setErrorMessage("Something went wrong! Try again later.");
+    if (!location.trim()) {
+      setErrorMessage('Please enter a valid location.'); // Handle empty location
+      return;
+    }
+    try {
+      const response = await axios.get(`http://localhost:5000/api/weather?location=${location}`);
+      setWeatherData(response.data);
+      setErrorMessage('');
+    } catch (error) {
+      setErrorMessage('Failed to fetch weather data. Please make sure that the city name is correct.'); // Handle backend error
     }
   };
 
@@ -100,7 +85,7 @@ const CurrentWeather = () => {
         errorMessage ? 
         (
           <div className="block text-semibold w-full my-6 p-4 bg-red-900 border border-gray-300 rounded-lg text-white">
-            Error: {errorMessage}
+            {errorMessage}
           </div>
         ) :
         null
