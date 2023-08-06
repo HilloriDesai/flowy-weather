@@ -7,12 +7,15 @@ const app = express();
 const port = 5000;
 
 app.use(express.json());
+
+// Allow api calls from localhost:3000
 const corsOptions = {
   origin: 'http://localhost:3000',
 };
 
 app.use(cors(corsOptions));
 
+// Api call to openweathermap api using axios
 app.get('/api/weather', async (req, res) => {
   const { location } = req.query;
   const apiKey = process.env.OPENWEATHERMAP_API_KEY;

@@ -8,10 +8,12 @@ const CurrentWeather = () => {
   const [weatherData, setWeatherData] = useState(null);
   const [errorMessage, setErrorMessage] = useState("");
 
+  // Change the search query as the user types in the search bar
   const handleChange = (event) => {
     setSearchQuery(event.target.value);
   };
 
+  // When location changes, refresh the states
   useEffect(() => {
     return () => {
       setWeatherData(null);
@@ -19,6 +21,7 @@ const CurrentWeather = () => {
     };
   }, [location]);
 
+  // API call to express backend with location parameter
   const fetchWeatherData = async (location) => {
     if (!location.trim()) {
       setErrorMessage('Please enter a valid location.'); // Handle empty location
@@ -29,10 +32,11 @@ const CurrentWeather = () => {
       setWeatherData(response.data);
       setErrorMessage('');
     } catch (error) {
-      setErrorMessage('Failed to fetch weather data. Please make sure that the city name is correct.'); // Handle backend error
+      setErrorMessage('Failed to fetch weather data. Please enter a valid location.'); // Handle backend error
     }
   };
 
+  // Set location to final search query when user presses get weather button
   const handleSubmit = (event) => {
     event.preventDefault();
     setLocation(searchQuery);

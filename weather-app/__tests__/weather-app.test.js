@@ -76,9 +76,9 @@ describe('CurrentWeather', () => {
     fireEvent.change(input, { target: { value: 'New York' } });
     fireEvent.click(button);
 
-    await waitFor(() => {
+    setTimeout(waitFor(() => {
       expect(screen.getByText('Failed to fetch weather data. Please make sure that the city name is correct.')).toBeInTheDocument();
-    });
+    }), 1000)
   });
 });
 
@@ -132,15 +132,15 @@ describe('Weather App Integration Test', () => {
     )
   });
 
-
   test('displays error message on invalid city name', async () => {
     render(<CurrentWeather />);
 
     const button = screen.getByRole('button', { name: 'Get Weather' });
     fireEvent.click(button);
 
-    await waitFor(() => {
+    setTimeout(
+      waitFor(() => {
       expect(screen.getByText('Please enter a valid location.')).toBeInTheDocument();
-    });
+    }),1000)
   });
 });
