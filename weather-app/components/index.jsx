@@ -66,7 +66,9 @@ const CurrentWeather = () => {
         weatherData?
         (
             <div className="block my-6 p-4 bg-gray-800 border border-gray-300 rounded-lg">
-                <h1 className="text-xl	font-medium text-white">{location} Weather</h1>
+                <h1 className="text-xl font-medium text-white inline">{location} Weather</h1>
+                <h1 className="text-base float-right text-white inline">{weatherData.weather[0].description}</h1>
+
                 <h4>
                 <span className="text-base font-thin text-white">Feels like {weatherData.main.temp}°C with {weatherData.wind.speed} km/h wind speed and {weatherData.main.humidity}% humidity</span>
                 </h4>

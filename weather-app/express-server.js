@@ -21,7 +21,7 @@ app.get('/api/weather', async (req, res) => {
     return res.status(400).json({ error: 'Please provide a valid city name' });
   }
 
-  const apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${location}&appid=${apiKey}`;
+  const apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${location}&appid=${apiKey}&units=metric`;
 
   try {
     const response = await axios.get(apiUrl);
